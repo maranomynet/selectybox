@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- encoding: utf-8 -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+  <title>jQuery.sharebtns demo/test</title>
+  <style type="text/css">
+      .selecty {
+        padding: 4px 8px;
+        border: 1px solid #999;
+      }
+  </style>
+
+  <script src="../../codecentre/jquery/jquery/1.6/jquery-1.6.js"></script>
+  <script src="jquery.selectybox-1.0.js"></script>
+  <script>
+    jQuery(function($){
+    
+      $('select').selectybox();
+
+    });
+  </script>
+
+</head>
+<body>
+
+  <h1>jQuery.sharebtns demo/test</h1>
+
+  <form action="">
+
+    <div class="fi_sel">
+      <label for="xxx">First Choice:</label>
+      <select id="xxx" name="name">
+        <option></option>
+        <option>One</option>
+        <option>Two</option>
+        <option>Three</option>
+        <option>Four</option>
+        <option>Five</option>
+        <option>Six</option>
+      </select>
+    </div>
+
+    <div class="fi_sel">
+      <label for="yyy">Second Choice:</label>
+      <select id="yyy" name="name">
+        <option>One</option>
+        <option>Two</option>
+        <option selected="selected">Three</option>
+        <option>Four</option>
+        <option>Five</option>
+        <option>Six</option>
+      </select>
+    </div>
+
+    <a href="#" onclick="jQuery('#yyy').val('Five').trigger('change');return false;">Change</a>
+
+  </form>
+
+
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+// encoding: utf-8
+// $.fn.selectybox 1.0  -- (c) 2012 Hugsmiðjan ehf.
+(function(b,c){var g=b.fn.selectybox=function(a){a=b.extend({},defaultCfg,a);var h=b(a.button);this.wrap(a.wrapper).each(function(){var d=b(this);btn=b(a.button).css(a.btnCSS).text(d.val()||e);d.data(c,btn).before(btn)}).bind('change',function(d){var f=b(this);f.data(c).text(f.val()||e)}).css({opacity:.0001}).css(a.selectCSS).parent().css(a.wrapperCSS)},e='\u00a0 \u00a0 \u00a0';defaultCfg=g.defaults={wrapper:'<span class="selecty"/>',button:'<span class="'+c+'"/>',btnValSelector:'.'+c,wrapperCSS:{position:'relative',display:'inline-block'},btnCSS:{display:'block'},selectCSS:{position:'absolute',top:0,left:0,width:'100%',height:'100%'},}})(jQuery,'selecty-button');
