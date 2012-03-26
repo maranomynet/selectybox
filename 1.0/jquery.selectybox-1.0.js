@@ -17,9 +17,6 @@
 //  $('select').selectybox({ /* options */ });
 //
 //
-// Options (defaults):
-//
-//
 //
 (function($, selectyButton){
 
@@ -32,15 +29,19 @@
                   var sel = $(this);
                       btn = $(cfg.button)
                                 .css( cfg.btnCSS )
-                                .text( sel.val() || emptyVal );
+                                .text( sel.val() || cfg.emptyVal );
                   sel
                       .data(selectyButton, btn)
                       .before( btn );
                 })
+              .bind('focus blur', function (e) {
+                  $(this).parent()
+                      .toggleClass( cfg.focusClass, e.type == 'focus' );
+                })
               .bind('change', function (e) {
                   var sel = $(this);
                   sel.data( selectyButton )
-                      .text( sel.val() || emptyVal );
+                      .text( sel.val() || cfg.emptyVal );
                 })
               .css({ opacity: .0001 })
               .css( cfg.selectCSS )
@@ -48,15 +49,15 @@
                   .css( cfg.wrapperCSS );
         },
 
-      emptyVal = '\u00a0 \u00a0 \u00a0';
-
       defaultCfg = selectybox.defaults = {
-          wrapper: '<span class="selecty"/>',
-          button:  '<span class="'+selectyButton+'"/>',
+          wrapper:        '<span class="selecty"/>',
+          button:         '<span class="'+selectyButton+'"/>',
+          focusClass:     'focused',
           btnValSelector: '.'+selectyButton,
-          wrapperCSS: { position: 'relative', display:'inline-block' },
-          btnCSS:     { display:'block' },
-          selectCSS:  { position: 'absolute', top:0, left:0, width:'100%', height:'100%' },
+          emptyVal:       '\u00a0 \u00a0 \u00a0',
+          wrapperCSS:     { position: 'relative', display:'inline-block' },
+          btnCSS:         { display:'block' },
+          selectCSS:      { position: 'absolute', top:0, left:0, width:'100%', height:'100%' }
         };
 
 
