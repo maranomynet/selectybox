@@ -28,7 +28,6 @@
               .each(function () {
                   var sel = $(this);
                       btn = $(cfg.button)
-                                .css( cfg.btnCSS )
                                 .text( sel.val() || cfg.emptyVal );
                   sel
                       .data(selectyButton, btn)
@@ -55,9 +54,8 @@
           focusClass:     'focused',
           btnValSelector: '.'+selectyButton,
           emptyVal:       '\u00a0 \u00a0 \u00a0',
-          wrapperCSS:     { position: 'relative', display:'inline-block' },
-          btnCSS:         { display:'block' },
-          selectCSS:      { position: 'absolute', top:0, left:0, width:'100%', height:'100%' }
+          wrapperCSS:     { position: 'relative' },
+          selectCSS:      { position: 'absolute', bottom:0, left:0 }
         };
 
 
