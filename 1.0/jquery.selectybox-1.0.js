@@ -16,6 +16,7 @@
 // Usage:
 //  $('select').selectybox({ /* options */ });
 //
+//  Returns the wrapper element.
 //
 //
 (function($, selectyButton){
@@ -23,7 +24,7 @@
   var selectybox = $.fn.selectybox = function ( cfg ) {
           cfg = $.extend({}, defaultCfg, cfg);
           var button = $(cfg.button);
-          this
+          return this
               .wrap(cfg.wrapper)
               .each(function () {
                   var sel = $(this);
