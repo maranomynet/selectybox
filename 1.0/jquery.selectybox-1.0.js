@@ -16,37 +16,38 @@
 // Usage:
 //  $('select').selectybox({ /* options */ });
 //
-//  Returns the wrapper element.
+//  Returns the wrapper elements.
 //
 //
 (function($, selectyButton){
 
   var selectybox = $.fn.selectybox = function ( cfg ) {
           cfg = $.extend({}, defaultCfg, cfg);
-          var button = $(cfg.button);
-          return this
-              .wrap(cfg.wrapper)
-              .each(function () {
-                  var sel = $(this);
-                      btn = $(cfg.button)
-                                .text( sel.val() || cfg.emptyVal );
-                  sel
-                      .data(selectyButton, btn)
-                      .before( btn );
-                })
-              .bind('focus blur', function (e) {
-                  $(this).parent()
-                      .toggleClass( cfg.focusClass, e.type == 'focus' );
-                })
-              .bind('change', function (e) {
-                  var sel = $(this);
-                  sel.data( selectyButton )
-                      .text( sel.val() || cfg.emptyVal );
-                })
-              .css({ opacity: .0001 })
-              .css( cfg.selectCSS )
-              .parent()
-                  .css( cfg.wrapperCSS );
+          var button = $(cfg.button),
+              wrappers = this
+                              .wrap(cfg.wrapper)
+                              .each(function () {
+                                  var sel = $(this);
+                                      btn = $(cfg.button)
+                                                .text( sel.val() || cfg.emptyVal );
+                                  sel
+                                      .data(selectyButton, btn)
+                                      .before( btn );
+                                })
+                              .bind('focus blur', function (e) {
+                                  $(this).parent()
+                                      .toggleClass( cfg.focusClass, e.type == 'focus' );
+                                })
+                              .bind('change', function (e) {
+                                  var sel = $(this);
+                                  sel.data( selectyButton )
+                                      .text( sel.val() || cfg.emptyVal );
+                                })
+                              .css({ opacity: .0001 })
+                              .css( cfg.selectCSS )
+                              .parent()
+                                  .css( cfg.wrapperCSS );
+            return this.pushStack( wrappers );
         },
 
       defaultCfg = selectybox.defaults = {
