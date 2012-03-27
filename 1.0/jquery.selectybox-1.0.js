@@ -52,7 +52,6 @@
           wrapper:        '<span class="selecty"/>',
           button:         '<span class="'+selectyButton+'"/>',
           focusClass:     'focused',
-          btnValSelector: '.'+selectyButton,
           emptyVal:       '\u00a0 \u00a0 \u00a0',
           wrapperCSS:     { position: 'relative' },
           selectCSS:      { position: 'absolute', bottom:0, left:0 }
