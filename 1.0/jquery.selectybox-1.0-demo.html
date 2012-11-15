@@ -9,8 +9,10 @@
   <title>jQuery.selectybox demo/test</title>
   <style type="text/css">
       .selecty {
+        display: inline-block;
       }
       .selecty-button {
+        display: inline-block;
         padding: 4px 8px;
         border: 1px solid #999;
       }
@@ -25,7 +27,7 @@
   <script>
     jQuery(function($){
 
-      $('select').selectybox();
+      $('.fi_sel > select').selectybox();
 
     });
   </script>
@@ -37,9 +39,9 @@
 
   <form action="">
 
-    <div class="fi_sel">
-      <label for="xxx">First Choice:</label>
-      <select id="xxx" name="name">
+    <p>
+      <label for="cntrl">Control:</label>
+      <select id="cntrl" name="name2">
         <option></option>
         <option value="1">One</option>
         <option value="2">Two</option>
@@ -48,11 +50,24 @@
         <option value="5">Five</option>
         <option value="6">Six</option>
       </select>
-    </div>
+    </p>
 
-    <div class="fi_sel">
-      <label for="yyy">Second Choice:</label>
-      <select id="yyy" name="name">
+    <p class="fi_sel">
+      <label for="choiceOne">First Choice:</label>
+      <select id="choiceOne" name="name">
+        <option></option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+        <option value="4">Four</option>
+        <option value="5">Five</option>
+        <option value="6">Six</option>
+      </select>
+    </p>
+
+    <p class="fi_sel">
+      <label for="choiceTwo">Second Choice:</label>
+      <select id="choiceTwo" name="name">
         <option>One</option>
         <option>Two</option>
         <option selected="selected">Three</option>
@@ -60,9 +75,9 @@
         <option>Five</option>
         <option>Six</option>
       </select>
-    </div>
+    </p>
 
-    <a href="#" onclick="jQuery('#yyy').val('Five').trigger('change');return false;">Change</a>
+    <a href="#" onclick="jQuery('#choiceTwo').val('Five').trigger('change');return false;">jQuery('#choiceTwo').val('Five').trigger('change');</a>
 
   </form>
 
