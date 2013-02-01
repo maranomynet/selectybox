@@ -4,9 +4,12 @@
 // (c) 2012 Hugsmiðjan ehf  -- http://www.hugsmidjan.is
 //  written by:
 //   * Már Örlygsson        -- http://mar.anomy.net
+//
+// Dual licensed under a MIT licence (http://en.wikipedia.org/wiki/MIT_License)
+// and GPL 2.0 or above (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
 // ----------------------------------------------------------------------------------
 //
-// Allows simple styling of selectboxes in a way that is both a11y and mobile friendly.
+// Allows simple styling of <select> boxes in a way that is both accessible and mobile friendly.
 //
 //
 // Requires:  jQuery 1.6+
