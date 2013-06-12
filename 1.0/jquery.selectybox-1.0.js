@@ -17,38 +17,67 @@
 //
 // Usage:
 //  $('select').selectybox({ /* options */ });
+//  $('select').selectybox({'destroy'});
 //
 //  Returns the wrapper elements.
 //
 //
 (function($){
 
-  var selectybox = $.fn.selectybox = function ( cfg ) {
-          cfg = $.extend({}, defaultCfg, cfg);
-          var wrappers = this
-                            .wrap(cfg.wrapper)
-                            .each(function () {
-                                var sel = $(this);
-                                $(cfg.button)
-                                    .text( sel.find('option:selected').text() || cfg.emptyVal )
-                                    .insertBefore( sel );
-                              })
-                            .bind('focus blur', function (e) {
-                                $(this).parent()
-                                    .toggleClass( cfg.focusClass, e.type === 'focus' );
-                              })
-                            .bind('change keypress', function (e) {
-                                var sel = $(this);
-                                setTimeout(function(){
-                                    sel.prev()
-                                        .text( sel.find('option:selected').text() || cfg.emptyVal );
-                                  }, 0);
-                              })
-                            .css({ opacity: 0.0001 })
-                            .css( cfg.selectCSS )
-                            .parent()
-                                .css( cfg.wrapperCSS );
-            return this.pushStack( wrappers );
+  var dataKey = 'selecty-button-cfg',
+      selectybox = $.fn.selectybox = function ( cfg ) {
+          var selects = this;
+          if ( cfg === 'destroy' )
+          {
+            selects.each(function () {
+                var sel = $(this),
+                    conf = sel.data(dataKey);
+                if ( conf )
+                {
+                  sel
+                      .removeData(dataKey)
+                      .css('opacity', '')
+                      .parent()
+                          .after( sel )
+                          .remove();
+                  $.each(conf.selectCSS||{}, function(prop){ sel.css(prop, ''); });
+                }
+              });
+            return selects;
+          }
+          else
+          {
+            cfg = $.extend({}, defaultCfg, cfg);
+            return selects.pushStack(
+                selects.filter('select')
+                    .data(dataKey, cfg)
+                    .wrap(cfg.wrapper)
+                    .each(function () {
+                        var sel = $(this);
+                        $(cfg.button)
+                            .text( sel.find('option:selected').text() || cfg.emptyVal )
+                            .insertBefore( sel );
+                      })
+                    .css({ opacity: 0.0001 })
+                    .css( cfg.selectCSS )
+                    .parent()
+                        .css( cfg.wrapperCSS )
+                        .on('focusin focusout', 'select', function (e) {
+                            // update focus class
+                            $(this).parent()
+                                .toggleClass( cfg.focusClass, e.type === 'focusin' );
+                          })
+                        .on('change keypress', 'select', function (e) {
+                            // update selecty-button text
+                            var sel = $(this);
+                            setTimeout(function(){
+                                sel.prev()
+                                    .text( sel.find('option:selected').text() || cfg.emptyVal );
+                              }, 0);
+                          })
+                        .toArray()
+              );
+          }
         },
 
       defaultCfg = selectybox.defaults = {
@@ -59,6 +88,7 @@
           wrapperCSS:     { position: 'relative' },
           selectCSS:      { position: 'absolute', bottom:0, left:0 }
         };
+
 
 
 })(jQuery);
