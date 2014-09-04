@@ -64,6 +64,7 @@
                         var sel = $(this);
                         $(cfg.button)
                             .text( sel.find('option:selected').text() || cfg.emptyVal )
+                            [!sel.val() ? 'addClass' : 'removeClass']('selecty-empty')
                             .insertBefore( sel );
                       })
                     .css({ opacity: 0.0001 })
@@ -81,7 +82,8 @@
                             var sel = $(this);
                             setTimeout(function(){
                                 sel.prev()
-                                    .text( sel.find('option:selected').text() || cfg.emptyVal );
+                                    .text( sel.find('option:selected').text() || cfg.emptyVal )
+                                    [!sel.val() ? 'addClass' : 'removeClass']('selecty-empty');
                               }, 0);
                           })
                         .toArray()
