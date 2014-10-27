@@ -33,7 +33,9 @@
   <script>
     jQuery(function($){
 
-      var wrappers = $('.fi_sel > select').selectybox();
+      var wrappers = $('.fi_sel > select').selectybox({
+              // text: function (txt) { return txt.toUpperCase() + ' Hei!'; }
+            });
 
     });
   </script>
