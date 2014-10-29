@@ -194,8 +194,8 @@
           var widget = this;
           var select = widget.select;
           widget.button.innerHTML = widget.text(
-              select.options[select.selectedIndex].text.replace(/</g, '&lt;')  ||  widget.emptyVal
-            );
+              select.options[select.selectedIndex].text.replace(/</g, '&lt;')
+            ) || widget.emptyVal;
         },
 
       val: function ( val ) {
