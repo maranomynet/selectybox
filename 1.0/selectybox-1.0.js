@@ -263,7 +263,6 @@
           {
             // set icky default .text() method to crudely match default behaviour the old the jQuery plugin
             options.text = options.text || function (text) {
-                console.log('Text: ', text);
                 $(this.container).toggleClass( 'selecty-empty', !text );
                 return text;
               };
