@@ -1,7 +1,7 @@
-/* selectybox 1.0  -- (c) 2012-2014 Hugsmiðjan ehf. - MIT/GPL   @preserve */
+/* Selectybox 1.0  -- (c) 2012-2014 Hugsmiðjan ehf. - MIT/GPL   @preserve */
 
 // ----------------------------------------------------------------------------------
-// selectybox v 1.0
+// Selectybox v 1.0
 // ----------------------------------------------------------------------------------
 // (c) 2012-2014 Hugsmiðjan ehf  -- http://www.hugsmidjan.is
 //  written by:
@@ -13,15 +13,41 @@
 //
 // Allows simple styling of <select> boxes in a way that is both accessible and mobile friendly.
 //
-// Usage:
-//  var widget = window.selectybox({ /* options */ });
-//  widget.refresh();         // silently refresh the widget
-//  widget.val( 'apple' );  // silently updates <select>'s value + refresh
-//  widget.destroy();
+// ## Usage:
+// 
+//     var mySelect = document.getElementsByTagName('select')[1];
+//     var widget = window.Selectybox( select, options );
+//     widget.refresh();       // silently refresh the widget
+//     widget.val( 'Apple' );  // silently updates <select>'s value + refresh
+//     widget.destroy();
+//    
+//     widget.select;    // the original <select> element
+//     widget.button;    // the proxy element that contains the value
+//     widget.container; // wrapper around both `select` and `button`
+//     
+//     var widget2 = window.Selectybox( select, newOptions );
+//     console.log( widget === widget2 ); // true
+//   
+//
+//
+// ## jQuery/Zepto plugin:
+// 
+//     // (Runs automatically if window.jQuery is detected.)
+//     // (Can be run multiple times for different jQuery/Zepto instances.)
+//     Selectybox.jQueryPlugin( jQueryOrZeptoObject );
+//    
+//     var mySelect = $('select').first();
+//     var widgetContainer = mySelect.selectybox( options );
 //  
-//  widget.select;    // the original <select> element
-//  widget.button;    // the proxy element that contains the value
-//  widget.container; // wrapper around both `select` and `button`
+//     mySelect.selectybox('refresh');
+//     mySelect.selectybox('val', 'Apple');
+//     mySelect.selectybox('destroy');
+//  
+//     var widget = widgetContainer.data('selectybox-widget');
+//     console.log( widget === mySelect.data('selectybox-widget') ); // true
+//     console.log( widget === mySelect.selectybox() ); // true
+//
+//
 //
 //
 (function(){'use strict';
@@ -43,15 +69,15 @@
           select[method](on+'blur',   widget._$blur);
         };
 
-  var setConfig = function ( widget, config, props ) {
-          props = props.split(' ');
+  var setOptions = function ( widget, options, propNames ) {
+          propNames = propNames.split(' ');
           var prop;
           var i = 0;
-          while ( (prop = props[i++]) )
+          while ( (prop = propNames[i++]) )
           {
-            if ( config[prop] )
+            if ( options[prop] )
             {
-              widget[prop] = config[prop];
+              widget[prop] = options[prop];
             }
           }
         };
@@ -69,22 +95,34 @@
           }
         };
 
+  var optionPropNames = 'templ getButton focusClass emptyVal text wrapperCSS selectCSS';
+  var widgetInstanceProps = '_$refresh _$focus _$blur select container button';
+
 
   // ====================================================================
 
 
-  var Selectybox = function ( select, config ) {
-          var widget = this;
+  var Selectybox = function ( select, options ) {
+          var existingWidget = select.$selectybox;
+          var widget = existingWidget || this;
+
           if ( !(widget instanceof Selectybox) )
           {
             // tolerate cases when new is missing.
-            return new Selectybox( select, config );
+            return new Selectybox( select, options );
           }
           else
           {
-            config = config || {};
+            if ( existingWidget )
+            {
+              existingWidget.destroy();
+            }
 
-            setConfig( widget, config, 'templ getButton focusClass emptyVal text wrapperCSS selectCSS');
+            if ( options )
+            {
+              setOptions( widget, options, optionPropNames);
+              options = null;
+            }
 
             var container = widget.container = buildElm( widget.templ );
             setStyles( container, widget.wrapperCSS );
@@ -92,9 +130,9 @@
             widget.button = widget.getButton();
             widget.select = select;
 
-            container.insertBefore( select );
-            select.insertBefore( widget.button.nextSibling );
-            select.styles.opacity = 0.0001;
+            select.parentNode.insertBefore( container, select );
+            container.insertBefore( select, widget.button.nextSibling );
+            select.style.opacity = 0.0001;
             setStyles( select, widget.selectCSS );
 
 
@@ -114,16 +152,21 @@
             events( widget, 'add' );
 
             widget.refresh();
+
+            select.$selectybox = widget; // dirty: add reference from widget.select back to widget
+
+            if ( existingWidget )
+            {
+              return widget;
+            }
           }
         };
 
-  // Instance properties
-      // _config:  Object
-      // _on:      Boolean
 
 
   Selectybox.prototype = {
 
+      // Default options/properties
       templ:       '<span class="selecty"><span class="selecty-button"></span></span>',
       getButton:   function () { return this.container.firstChild; },
       focusClass:  'focused',
@@ -146,6 +189,7 @@
         },
 
 
+      // Methods
       refresh: function () {
           var widget = this;
           var select = widget.select;
@@ -158,6 +202,7 @@
           var widget = this;
           var i = 0;
           var option;
+          val += ''; // enforce String type for predictable strict comparison
           while ( (option = widget.select.options[i++]) )
           {
             if ( option.value === val )
@@ -173,40 +218,58 @@
           var widget = this;
           var select = widget.select;
           var container = widget.container;
-          select.insertBefore( container );
-          container.parentNode.removeChild( container );
+          var containerParent = container.parentNode;
+          // replace <select> + zap container
+          containerParent.insertBefore( select, container );
+          containerParent.removeChild( container );
+          // unbind DOM events
           events( widget, 'remove' );
+          // reset <select> style="" props
+          select.style.opacity = '';
           setStyles( select, widget.selectCSS, true );
-          select.styles.opacity = '';
-          widget.select = widget.container = widget.button = null;
+          // release/delete widget props
+          select.$selectybox = '';
+          var props = (optionPropNames + widgetInstanceProps).split(' '); 
+          var i = props.length;
+          while ( i-- );
+          {
+            delete widget[ props[i] ];
+          }
         }
 
     };
 
-            
+
   // ====================================================================
             
 
   Selectybox.jQueryPlugin = function ( $ ) {
-      var getWidget = 'selectyboxwidget';
-      $.fn.selectybox = function ( config, value ) {
+      var widgetKey = 'selectybox-widget'; // public
+      $.fn.selectybox = function ( options, value ) {
           var selects = this;
-          if ( /^(?:refresh|val|destroy)$/.text(config) )
+          if ( /^(?:refresh|val|destroy)$/.text(options) )
           {
             selects.each(function(){
-                $(this).data(getWidget)[config](value);
+                var select = $(this);
+                var widget = select.data(widgetKey);
+                if ( options==='destroy' )
+                {
+                  select.add(widget.container).removeData(widgetKey);
+                }
+                widget[options](value); // value is meaningless for all but the .val() method
               });
           }
-          else if ( typeof config !== 'string' )
+          else if ( typeof options !== 'string' )
           {
             // set icky default .text() method to crudely match default behaviour the old the jQuery plugin
-            config.text = config.text || function (text) {
+            options.text = options.text || function (text) {
+                console.log('Text: ', text);
                 $(this.container).toggleClass( 'selecty-empty', !text );
                 return text;
               };
-            var containers = selects.map(function () {
-                    var widget = Selectybox( this, config );
-                    $(this).data(getWidget, widget);
+            var containers = selects.filter('select').map(function (i,select) {
+                    var widget = Selectybox( select, options );
+                    $(select).add(widget.container).data(widgetKey, widget);
                     return widget.container;
                   });
             return selects.pushStack( containers );
