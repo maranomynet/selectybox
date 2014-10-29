@@ -247,7 +247,7 @@
       var widgetKey = 'selectybox-widget'; // public
       $.fn.selectybox = function ( options, value ) {
           var selects = this;
-          if ( /^(?:refresh|val|destroy)$/.text(options) )
+          if ( /^(?:refresh|val|destroy)$/.test(options) )
           {
             selects.each(function(){
                 var select = $(this);
