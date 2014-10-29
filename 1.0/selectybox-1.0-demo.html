@@ -8,25 +8,31 @@
 
   <title>window.selectybox demo/test</title>
   <style type="text/css">
+      form {
+        float: left;
+        width: 300px;
+        margin: 0 20px 20px 0;
+      }
       .selecty {
         display: inline-block;
-      }
-      .selecty-button {
-        display: inline-block;
-        padding: 4px 8px;
         border: 1px solid #999;
       }
       .selecty.focused {
         background-color: #ff9;
         border-color: #000;
       }
-      .selecty select {
-        width: 100%;
-        height: 100%;
-        padding: 0;
-        border: 0;
+      .selecty.selecty-empty {
+        -webkit-box-shadow: 0 0 5px #f00;
+        -moz-box-shadow:    0 0 5px #f00;
+        box-shadow:         0 0 5px #f00;
       }
-  </style>
+
+      .selecty-button {
+        display: block;
+        padding: 4px 8px;
+      }
+      .selecty select {}
+    </style>
 
 </head>
 <body>
@@ -76,23 +82,34 @@
   </form>
 
 
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
   <script src="selectybox-1.0.js"></script>
   <script>
     (function(){
-      var selects = document.querySelectorAll('.fi_sel > select');
-      var selectyboxen = [].map.call(selects, function (selectElm) {
-              var opts = {
-                      // text: function (txt) { return txt.toUpperCase() + ' Hei!'; }
-                    };
-              var widget = window.Selectybox(selectElm, opts);
-              // widget.refresh();
-              // widget.destroy();
-              // widget.value();
-              // widget.select;
-              // widget.container;
-              // widget.button;
-              return widget;
-            })
+      var $ = window.jQuery;
+      var form1 = $('form');
+      var form2 = form1.clone().insertAfter( form1 );
+
+      var opts = {
+              // text: function (txt) { return txt.toUpperCase() + ' Hei!'; }
+            };
+
+      // dependency-less
+      var selects = form1.find('.fi_sel > select');
+      window.selectyboxen = $.map( selects, function ( selectElm ) {
+          var widget = window.Selectybox(selectElm, opts);
+          // widget.refresh();
+          // widget.destroy();
+          // widget.value();
+          // widget.select;
+          // widget.container;
+          // widget.button;
+          return widget;
+        });  
+
+      // use jQuery-plugin
+      window.$selectyboxen = form2.find('.fi_sel > select').selectybox( opts );
+
     })();
   </script>
 
