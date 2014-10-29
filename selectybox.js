@@ -58,10 +58,11 @@
   var emptyDiv;
 
   var events = function ( widget, action ) {
-          var on = w3cEvents ? '' : 'on';
+          var doAdd = action === 'add';
           var method = w3cEvents ?
-                          action=='add' ? 'addEventListener' : 'removeEventListener':
-                          action=='add' ? 'attachEvent' : 'detachEvent';
+                          (doAdd ? 'add' : 'remove') + 'EventListener':
+                          (doAdd ? 'at' : 'de') + 'tachEvent';
+          var on = w3cEvents ? '' : 'on';
           var select = widget.select;
           select[method](on+'change', widget._$refresh);
           select[method](on+'keyup',  widget._$refresh);
@@ -69,34 +70,15 @@
           select[method](on+'blur',   widget._$blur);
         };
 
-  var setOptions = function ( widget, options, propNames ) {
-          propNames = propNames.split(' ');
-          var prop;
-          var i = 0;
-          while ( (prop = propNames[i++]) )
-          {
-            if ( options[prop] )
-            {
-              widget[prop] = options[prop];
-            }
-          }
-        };
-
-  var buildElm = function ( templ ) {
-          emptyDiv = emptyDiv || document.createElement('div');
-          emptyDiv.innerHTML = templ.replace(/^[^<]+/, '');
-          return emptyDiv.firstChild;
-        };
-
-  var setStyles = function ( element, styles, doClear ) {
+   var setStyles = function ( element, styles, doClear ) {
           for ( var cssProp in styles )
           {
             element.style[cssProp] = doClear ? '' : styles[cssProp];
           }
         };
 
-  var optionPropNames = 'templ getButton focusClass emptyVal text wrapperCSS selectCSS';
-  var widgetInstanceProps = '_$refresh _$focus _$blur select container button';
+  var optionPropNames = 'templ getButton focusClass emptyVal text wrapperCSS selectCSS'.split(' ');
+  var widgetInstanceProps = '_$refresh _$focus _$blur select container button'.split(' ');
 
 
   // ====================================================================
@@ -120,12 +102,22 @@
 
             if ( options )
             {
-              setOptions( widget, options, optionPropNames);
+              var i = 0;
+              var prop;
+              while ( (prop = optionPropNames[i++]) )
+              {
+                if ( options[prop] )
+                {
+                  widget[prop] = options[prop];
+                }
+              }
               options = null;
             }
 
-            var container = widget.container = buildElm( widget.templ );
-            setStyles( container, widget.wrapperCSS );
+            emptyDiv = emptyDiv || document.createElement('div');
+            emptyDiv.innerHTML = widget.templ.replace(/^[^<]+/, '');
+            var container = widget.container = emptyDiv.firstChild;
+            container.style.position = 'relative';
 
             widget.button = widget.getButton();
             widget.select = select;
@@ -167,12 +159,11 @@
   Selectybox.prototype = {
 
       // Default options/properties
-      templ:       '<span class="selecty"><span class="selecty-button"></span></span>',
+      templ:       '<span class="selecty"><span class="selecty-button"/></span>',
       getButton:   function () { return this.container.firstChild; },
       focusClass:  'focused',
       emptyVal:    '\u00a0 \u00a0 \u00a0',
       text:        function (txt) { return txt; }, // <-- it's OK to add HTML markup
-      wrapperCSS:  { position: 'relative' },
       selectCSS:   {
           // set necessary styles
           position: 'absolute',
@@ -229,9 +220,9 @@
           setStyles( select, widget.selectCSS, true );
           // release/delete widget props
           select.$selectybox = '';
-          var props = (optionPropNames + widgetInstanceProps).split(' ');
+          var props = optionPropNames.concat( widgetInstanceProps );
           var i = props.length;
-          while ( i-- );
+          while ( i-- )
           {
             delete widget[ props[i] ];
           }
@@ -266,12 +257,13 @@
                 $(this.container).toggleClass( 'selecty-empty', !text );
                 return text;
               };
-            var containers = selects.filter('select').map(function (i,select) {
+            return selects.pushStack(
+                selects.filter('select').map(function (i,select) {
                     var widget = Selectybox( select, options );
                     $(select).add(widget.container).data(widgetKey, widget);
                     return widget.container;
-                  });
-            return selects.pushStack( containers );
+                  })
+              );
           }
           return selects;
         };
