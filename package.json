@@ -1,0 +1,25 @@
+{
+  "name": "selectybox",
+  "version": "1.0.0",
+  "description": "Allows simple styling of <select> boxes in a way that is both accessible and mobile friendly.",
+  "main": "selectybox.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:maranomynet/selectybox.git"
+  },
+  "keywords": [
+    "select",
+    "styling",
+    "selectbox"
+  ],
+  "author": "Hugsmiðjan ehf. <hugsmidjan@hugsmidjan.is> (http://www.hugsmidjan.is/)",
+  "contributors": ["Már Örlygsson <mar.nospam@anomy.net> (http://mar.anomy.net/)"],
+  "license": "MIT / GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/maranomynet/selectybox/issues"
+  },
+  "homepage": "https://github.com/maranomynet/selectybox"
+}
