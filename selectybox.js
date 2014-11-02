@@ -14,35 +14,35 @@
 // Allows simple styling of <select> boxes in a way that is both accessible and mobile friendly.
 //
 // ## Usage:
-// 
+//
 //     var mySelect = document.getElementsByTagName('select')[1];
 //     var widget = window.Selectybox( select, options );
 //     widget.refresh();       // silently refresh the widget
 //     widget.val( 'Apple' );  // silently updates <select>'s value + refresh
 //     widget.destroy();
-//    
+//
 //     widget.select;    // the original <select> element
 //     widget.button;    // the proxy element that contains the value
 //     widget.container; // wrapper around both `select` and `button`
-//     
+//
 //     var widget2 = window.Selectybox( select, newOptions );
 //     console.log( widget === widget2 ); // true
-//   
+//
 //
 //
 // ## jQuery/Zepto plugin:
-// 
+//
 //     // (Runs automatically if window.jQuery is detected.)
 //     // (Can be run multiple times for different jQuery/Zepto instances.)
 //     Selectybox.jQueryPlugin( jQueryOrZeptoObject );
-//    
+//
 //     var mySelect = $('select').first();
 //     var widgetContainer = mySelect.selectybox( options );
-//  
+//
 //     mySelect.selectybox('refresh');
 //     mySelect.selectybox('val', 'Apple');
 //     mySelect.selectybox('destroy');
-//  
+//
 //     var widget = widgetContainer.data('selectybox-widget');
 //     console.log( widget === mySelect.data('selectybox-widget') ); // true
 //     console.log( widget === mySelect.selectybox() ); // true
@@ -54,7 +54,7 @@
 
   var win = window;
   var w3cEvents = !!win.addEventListener;
-  
+
   var emptyDiv;
 
   var events = function ( widget, action ) {
@@ -183,7 +183,7 @@
           // unset existing styles
           top:      'auto',
           right:    'auto',
-          margin:   0, 
+          margin:   0,
           padding:  0,
           border:   0
         },
@@ -229,7 +229,7 @@
           setStyles( select, widget.selectCSS, true );
           // release/delete widget props
           select.$selectybox = '';
-          var props = (optionPropNames + widgetInstanceProps).split(' '); 
+          var props = (optionPropNames + widgetInstanceProps).split(' ');
           var i = props.length;
           while ( i-- );
           {
@@ -241,7 +241,7 @@
 
 
   // ====================================================================
-            
+
 
   Selectybox.jQueryPlugin = function ( $ ) {
       var widgetKey = 'selectybox-widget'; // public
