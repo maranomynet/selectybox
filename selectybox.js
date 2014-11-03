@@ -1,8 +1,5 @@
 /* Selectybox 1.0  -- (c) 2012-2014 Hugsmiðjan ehf. - MIT/GPL   @preserve */
 
-// ----------------------------------------------------------------------------------
-// Selectybox v 1.0
-// ----------------------------------------------------------------------------------
 // (c) 2012-2014 Hugsmiðjan ehf  -- http://www.hugsmidjan.is
 //  written by:
 //   * Már Örlygsson        -- http://mar.anomy.net
@@ -25,9 +22,10 @@
 //     widget.button;    // the proxy element that contains the value
 //     widget.container; // wrapper around both `select` and `button`
 //
-//     var widget2 = window.Selectybox( select, newOptions );
-//     console.log( widget === widget2 ); // true
+//     var widget2 = window.Selectybox( select, newOptions ); // apply new options (rebuild wrappers, etc.)
+//     widget === widget2;  // true
 //
+//     Selectybox.getWidget( mySelect )  ===  widget;  // true
 //
 //
 // ## jQuery/Zepto plugin:
@@ -36,16 +34,14 @@
 //     // (Can be run multiple times for different jQuery/Zepto instances.)
 //     Selectybox.jQueryPlugin( jQueryOrZeptoObject );
 //
-//     var mySelect = $('select').first();
-//     var widgetContainer = mySelect.selectybox( options );
+//     var $mySelect = $('select').first();
+//     var widgetContainer = $mySelect.selectybox( options );
 //
-//     mySelect.selectybox('refresh');
-//     mySelect.selectybox('val', 'Apple');
-//     mySelect.selectybox('destroy');
+//     $mySelect.selectybox('refresh');
+//     $mySelect.selectybox('val', 'Apple');
+//     $mySelect.selectybox('destroy');
 //
-//     var widget = widgetContainer.data('selectybox-widget');
-//     console.log( widget === mySelect.data('selectybox-widget') ); // true
-//     console.log( widget === mySelect.selectybox() ); // true
+//     var widget = mySelect.selectybox('widget');
 //
 //
 //
@@ -85,7 +81,7 @@
 
 
   var Selectybox = function ( select, options ) {
-          var existingWidget = select.$selectybox;
+          var existingWidget = Selectybox.getWidget( select );
           var widget = existingWidget || this;
 
           if ( !(widget instanceof Selectybox) )
@@ -235,39 +231,42 @@
 
 
   Selectybox.jQueryPlugin = function ( $ ) {
-      var widgetKey = 'selectybox-widget'; // public
       $.fn.selectybox = function ( options, value ) {
           var selects = this;
-          if ( /^(?:refresh|val|destroy)$/.test(options) )
+          if ( /^(?:refresh|val|destroy|widget)$/.test(options) )
           {
             selects.each(function(){
-                var select = $(this);
-                var widget = select.data(widgetKey);
-                if ( options==='destroy' )
+                var widget = Selectybox.getWidget(this);
+                if ( widget )
                 {
-                  select.add(widget.container).removeData(widgetKey);
+                  if ( options === 'widget' )
+                  {
+                    return widget;
+                  }
+                  widget[options](value); // value is actually meaningless for all but the .val() method
                 }
-                widget[options](value); // value is meaningless for all but the .val() method
               });
           }
           else if ( typeof options !== 'string' )
           {
             options = options || {};
             // set icky default .text() method to crudely match default behaviour the old the jQuery plugin
-            options.text = options.text || function (text) {
+            options.text = options.text || function (text) {  // this === widget
                 $(this.container).toggleClass( 'selecty-empty', !$(this.select).val() );
                 return text;
               };
             return selects.pushStack(
                 selects.filter('select').map(function (i,select) {
-                    var widget = Selectybox( select, options );
-                    $(select).add(widget.container).data(widgetKey, widget);
-                    return widget.container;
+                    return Selectybox( select, options ).container;
                   })
               );
           }
           return selects;
         };
+    };
+
+  Selectybox.getWidget = function ( select ) {
+      return select.$selectybox;
     };
 
 
