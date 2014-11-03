@@ -73,7 +73,7 @@
           }
         };
 
-  var optionPropNames = 'templ getButton focusClass emptyVal text wrapperCSS selectCSS'.split(' ');
+  var optionPropNames = 'templ getButton focusClass emptyVal text selectCSS'.split(' ');
   var widgetInstanceProps = '_$refresh _$focus _$blur select container button'.split(' ');
 
 
