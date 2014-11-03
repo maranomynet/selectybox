@@ -7,45 +7,7 @@
 // Dual licensed under a MIT licence (http://en.wikipedia.org/wiki/MIT_License)
 // and GPL 2.0 or above (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
 // ----------------------------------------------------------------------------------
-//
-// Allows simple styling of <select> boxes in a way that is both accessible and mobile friendly.
-//
-// ## Usage:
-//
-//     var mySelect = document.getElementsByTagName('select')[1];
-//     var widget = window.Selectybox( select, options );
-//     widget.refresh();       // silently refresh the widget
-//     widget.val( 'Apple' );  // silently updates <select>'s value + refresh
-//     widget.destroy();
-//
-//     widget.select;    // the original <select> element
-//     widget.button;    // the proxy element that contains the value
-//     widget.container; // wrapper around both `select` and `button`
-//
-//     var widget2 = window.Selectybox( select, newOptions ); // apply new options (rebuild wrappers, etc.)
-//     widget === widget2;  // true
-//
-//     Selectybox.getWidget( mySelect )  ===  widget;  // true
-//
-//
-// ## jQuery/Zepto plugin:
-//
-//     // (Runs automatically if window.jQuery is detected.)
-//     // (Can be run multiple times for different jQuery/Zepto instances.)
-//     Selectybox.jQueryPlugin( jQueryOrZeptoObject );
-//
-//     var $mySelect = $('select').first();
-//     var widgetContainer = $mySelect.selectybox( options );
-//
-//     $mySelect.selectybox('refresh');
-//     $mySelect.selectybox('val', 'Apple');
-//     $mySelect.selectybox('destroy');
-//
-//     var widget = mySelect.selectybox('widget');
-//
-//
-//
-//
+
 (function(){'use strict';
 
   var win = window;
