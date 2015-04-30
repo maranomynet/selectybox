@@ -23,9 +23,9 @@
           var on = w3cEvents ? '' : 'on';
           var select = widget.select;
           select[method](on+'change', widget._$refresh);
-          select[method](on+'keyup',  widget._$refresh);
-          select[method](on+'focus',  widget._$focus);
-          select[method](on+'blur',   widget._$blur);
+          select[method](on+'keyup', widget._$refresh);
+          select[method](on+'focus', widget._$focus);
+          select[method](on+'blur', widget._$blur);
         };
 
    var setStyles = function ( element, styles, doClear ) {
@@ -117,24 +117,24 @@
   Selectybox.prototype = {
 
       // Default options/properties
-      templ:       '<span class="selecty"><span class="selecty-button"/></span>',
-      getButton:   function () { return this.container.firstChild; },
-      focusClass:  'focused',
-      emptyVal:    '\u00a0 \u00a0 \u00a0',
-      text:        function (txt) { return txt; }, // <-- it's OK to add HTML markup
-      selectCSS:   {
+      templ: '<span class="selecty"><span class="selecty-button"/></span>',
+      getButton: function () { return this.container.firstChild; },
+      focusClass: 'focused',
+      emptyVal: '\u00a0 \u00a0 \u00a0',
+      text: function (txt) { return txt; }, // <-- it's OK to add HTML markup
+      selectCSS: {
           // set necessary styles
           position: 'absolute',
-          bottom:   0,
-          left:     0,
-          width:    '100%',
-          height:   '100%',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
           // unset existing styles
-          top:      'auto',
-          right:    'auto',
-          margin:   0,
-          padding:  0,
-          border:   0
+          top: 'auto',
+          right: 'auto',
+          margin: 0,
+          padding: 0,
+          border: 0
         },
 
 
