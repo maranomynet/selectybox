@@ -103,7 +103,7 @@ widget.val( 'Apple' );
 To change the `<select>`'s `disabled` property, and set the widget's disabledClass accordingly:
 
 ```js
-widget.disable();      // disable
+widget.disable();        // disable
 widget.disable( false ); // enable
 ```
 
@@ -145,9 +145,10 @@ var widgetContainer = $mySelect.selectybox( options );
 The plugin provides jQuery UI like access to the widget methods:
 
 ```js
-$mySelect.selectybox('refresh');      // .refresh()
-$mySelect.selectybox('val', 'Apple'); // .val('Apple')
-$mySelect.selectybox('destroy');      // .destroy()
+$mySelect.selectybox('refresh');        // .refresh()
+$mySelect.selectybox('val', 'Apple');   // .val('Apple')
+$mySelect.selectybox('disable', false); // .val(false)
+$mySelect.selectybox('destroy');        // .destroy()
 ```
 
 Access to the raw `widget` is provided so:
