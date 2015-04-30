@@ -99,6 +99,23 @@
                 container.className += ' '+widget.focusClass;
               };
 
+            var _disabled = false;
+            var _disbabledClassRe;
+            widget._$able = function () {
+                var disabled = select.disabled;
+                var className = container.className;
+                if ( _disabled !== disabled )
+                {
+                  _disabled = disabled;
+                  if ( _disabled ) {
+                    _disbabledClassRe = _disbabledClassRe || new RegExp('(?:^| )'+widget.disabledClass+'( |$)');
+                  }
+                  container.className = _disabled ?
+                      className+' '+widget.disabledClass:
+                      className.replace(_disbabledClassRe, '$1');
+                }
+              };
+
             events( widget, 'add' );
 
             widget.refresh();
@@ -120,6 +137,7 @@
       templ: '<span class="selecty"><span class="selecty-button"/></span>',
       getButton: function () { return this.container.firstChild; },
       focusClass: 'focused',
+      disabledClass: 'disabled',
       emptyVal: '\u00a0 \u00a0 \u00a0',
       text: function (txt) { return txt; }, // <-- it's OK to add HTML markup
       selectCSS: {
@@ -142,6 +160,7 @@
       refresh: function () {
           var widget = this;
           var select = widget.select;
+          widget._$able();
           widget.button.innerHTML = widget.text(
               select.options[select.selectedIndex].text.replace(/</g, '&lt;')
             ) || widget.emptyVal;
@@ -161,6 +180,11 @@
             }
           }
           widget.refresh();
+        },
+
+      disable: function ( disabled ) {
+          this.select.disabled = disabled!==false;
+          this._$able();
         },
 
       destroy: function () {

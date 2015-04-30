@@ -21,6 +21,9 @@
         background-color: #ff9;
         border-color: #000;
       }
+      .selecty.disabled {
+        background-color: #ccc;
+      }
       .selecty.selecty-empty {
         -webkit-box-shadow: 0 0 5px #f00;
         -moz-box-shadow:    0 0 5px #f00;
@@ -70,6 +73,18 @@
     <p class="fi_sel">
       <label for="choiceTwo">Second Choice:</label>
       <select id="choiceTwo" name="name">
+        <option>One</option>
+        <option>Two</option>
+        <option selected="selected">Three</option>
+        <option>Four</option>
+        <option>Five</option>
+        <option>Six</option>
+      </select>
+    </p>
+
+    <p class="fi_sel">
+      <label for="choiceThree">Third Choice:</label>
+      <select id="choiceThree" name="name" disabled="disabled">
         <option>One</option>
         <option>Two</option>
         <option selected="selected">Three</option>

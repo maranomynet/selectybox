@@ -39,6 +39,7 @@ var options = {
       templ: '<span class="selecty"><span class="selecty-button"/></span>',
       getButton: function () { return this.container.firstChild; },
       focusClass: 'focused',
+      disabledClass: 'disabled',
       emptyVal: '\u00a0 \u00a0 \u00a0',
       text: function (txt) { return txt; }, // <-- it's OK to add HTML markup
       selectCSS: {
@@ -61,6 +62,7 @@ var options = {
 * **templ** - is the HTML describing the `widget.container` element. The template also contains the `widget.button` element (holding the displayed text value).
 * **getButton** - describes where the `widget.button` is within the `widget.container` template.
 * **focusClass** -- additional class-name for the `widget.container` while the `<select>` is focused.
+* **disabledClass** -- additional class-name for the `widget.container` while the `<select>` is disabled.
 * **emptyVal** -- String to display instead of an empty string inside `widget.button`
 * **text** -- function that allows dynamic modification of the displayed text.
 * **selectCSS** -- CSS properties to apply to the `<select>` while the widget is active.
@@ -86,8 +88,7 @@ Selectybox.getWidget( selectElm )  ===  widget;  // true
 
 ## 4. Methods
 
-If the `<select>`'s value has been updated (and no `change` event triggered)
-then you can silently refresh the widget by running:
+If the `<select>`'s value, or disabled state has been updated (and no `change` event triggered), then you can silently refresh the widget by running:
 
 ```js
 widget.refresh();
@@ -97,6 +98,13 @@ To silently update the `<select>`'s value (and `refresh` the widget's display te
 
 ```js
 widget.val( 'Apple' );
+```
+
+To change the `<select>`'s `disabled` property, and set the widget's disabledClass accordingly:
+
+```js
+widget.disable();      // disable
+widget.disable( false ); // enable
 ```
 
 To remove the injected elements, inline styling an event handlers, simply do
