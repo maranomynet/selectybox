@@ -158,28 +158,30 @@
 
       // Methods
       refresh: function () {
-          var widget = this;
-          var select = widget.select;
-          widget._$able();
-          widget.button.innerHTML = widget.text(
-              select.options[select.selectedIndex].text.replace(/</g, '&lt;')
-            ) || widget.emptyVal;
+          this._$able();
+          this.val();
         },
 
       val: function ( val ) {
           var widget = this;
-          var i = 0;
-          var option;
-          val += ''; // enforce String type for predictable strict comparison
-          while ( (option = widget.select.options[i++]) )
+          var select = widget.select;
+          if ( val!=null )
           {
-            if ( option.value === val )
+            val += ''; // enforce String type for predictable strict comparison
+            var i = 0;
+            var option;
+            while ( (option = select.options[i++]) )
             {
-              option.selected = true;
-              break;
+              if ( option.value === val )
+              {
+                option.selected = true;
+                break;
+              }
             }
           }
-          widget.refresh();
+          widget.button.innerHTML = widget.text(
+              select.options[select.selectedIndex].text.replace(/</g, '&lt;')
+            ) || widget.emptyVal;
         },
 
       disable: function ( disabled ) {
