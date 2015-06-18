@@ -7,7 +7,7 @@
 npm install selectybox
 ```
 
-FormatChange is CommonJS (`require()`) friendly, using `module.exports` by default -- setting `Selectybox` as a global object only as last resort.
+SelectyBox is CommonJS (`require()`) friendly, using `module.exports` by default -- setting `Selectybox` as a global object only as last resort.
 
 Selectybox comes with a nifty jQuery/Zepto plugin factory (See below).
 
