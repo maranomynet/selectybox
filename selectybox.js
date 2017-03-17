@@ -60,7 +60,7 @@
         var i = 0;
         var prop;
         while ( (prop = optionPropNames[i++]) ) {
-          if ( options[prop] ) {
+          if ( options[prop] != null ) {
             widget[prop] = options[prop];
           }
         }
