@@ -40,6 +40,7 @@ var options = {
       getButton: function () { return this.container.firstChild; },
       focusClass: 'focused',
       disabledClass: 'disabled',
+      emptyClass: 'emptyvalue',
       emptyVal: '\u00a0 \u00a0 \u00a0',
       text: function (txt) { return txt; }, // <-- it's OK to add HTML markup
       selectCSS: {
@@ -63,6 +64,7 @@ var options = {
 * **getButton** - describes where the `widget.button` is within the `widget.container` template.
 * **focusClass** -- additional class-name for the `widget.container` while the `<select>` is focused.
 * **disabledClass** -- additional class-name for the `widget.container` while the `<select>` is disabled.
+* **emptyClass** -- additional class-name for the `widget.container` when the `<select>`'s value is `""`.
 * **emptyVal** -- String to display instead of an empty string inside `widget.button`
 * **text** -- function that allows dynamic modification of the displayed text.
 * **selectCSS** -- CSS properties to apply to the `<select>` while the widget is active.

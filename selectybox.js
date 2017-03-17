@@ -35,7 +35,7 @@
           }
         };
 
-  var optionPropNames = 'templ getButton focusClass emptyVal text selectCSS'.split(' ');
+  var optionPropNames = 'templ getButton focusClass disabledClass emptyClass emptyVal text selectCSS'.split(' ');
   var widgetInstanceProps = '_$refresh _$focus _$blur select container button'.split(' ');
 
 
@@ -110,6 +110,8 @@
 
             events( widget, 'add' );
 
+            widget._isEmpty = false;
+
             widget.refresh();
 
             select.$selectybox = widget; // dirty: add reference from widget.select back to widget
@@ -130,6 +132,7 @@
       getButton: function () { return this.container.firstChild; },
       focusClass: 'focused',
       disabledClass: 'disabled',
+      emptyClass: 'emptyvalue',
       emptyVal: '\u00a0 \u00a0 \u00a0',
       text: function (txt) { return txt; }, // <-- it's OK to add HTML markup
       selectCSS: {
@@ -171,8 +174,14 @@
               }
             }
           }
+          var selectedOption = select.options[select.selectedIndex];
+          var isEmpty = !selectedOption.value;
+          if ( isEmpty !== widget._isEmpty ) {
+            widget._isEmpty = isEmpty;
+            widget.container.classList[isEmpty?'add':'remove'](widget.emptyClass);
+          }
           widget.button.innerHTML = widget.text(
-              select.options[select.selectedIndex].text.replace(/</g, '&lt;')
+              selectedOption.text.replace(/</g, '&lt;')
             ) || widget.emptyVal;
         },
 
