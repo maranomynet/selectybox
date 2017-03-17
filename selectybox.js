@@ -92,29 +92,19 @@
             widget._$refresh = function () {
                 setTimeout(function(){ widget.refresh(); }, 0);
               };
-            var _focusClassRe;
+            var containerClass = container.classList;
             widget._$blur = function () {
-                _focusClassRe = _focusClassRe || new RegExp('(?:^| )'+widget.focusClass+'( |$)');
-                container.className = container.className.replace(_focusClassRe, '$1');
+                containerClass.remove(widget.focusClass);
               };
             widget._$focus = function () {
-                container.className += ' '+widget.focusClass;
+                containerClass.add(widget.focusClass);
               };
-
             var _disabled = false;
-            var _disbabledClassRe;
             widget._$able = function () {
-                var disabled = select.disabled;
-                var className = container.className;
-                if ( _disabled !== disabled )
+                if ( select.disabled !== _disabled )
                 {
-                  _disabled = disabled;
-                  if ( _disabled ) {
-                    _disbabledClassRe = _disbabledClassRe || new RegExp('(?:^| )'+widget.disabledClass+'( |$)');
-                  }
-                  container.className = _disabled ?
-                      className+' '+widget.disabledClass:
-                      className.replace(_disbabledClassRe, '$1');
+                  _disabled = select.disabled;
+                  containerClass[_disabled?'add':'remove'](widget.disabledClass);
                 }
               };
 
