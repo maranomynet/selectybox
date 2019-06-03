@@ -1,6 +1,6 @@
 {
   "name": "selectybox",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Allows simple styling of <select> boxes in a way that is both accessible and mobile friendly.",
   "main": "selectybox.js",
   "scripts": {
