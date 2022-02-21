@@ -3,6 +3,7 @@
   "version": "1.3.3",
   "description": "Allows simple styling of <select> boxes in a way that is both accessible and mobile friendly.",
   "main": "selectybox.js",
+  "types": "selectybox.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,10 +17,15 @@
     "selectbox"
   ],
   "author": "Hugsmiðjan ehf. <hugsmidjan@hugsmidjan.is> (http://www.hugsmidjan.is/)",
-  "contributors": ["Már Örlygsson <mar.nospam@anomy.net> (http://mar.anomy.net/)"],
+  "contributors": [
+    "Már Örlygsson <mar.nospam@anomy.net> (http://mar.anomy.net/)"
+  ],
   "license": "MIT / GPL-2.0+",
   "bugs": {
     "url": "https://github.com/maranomynet/selectybox/issues"
   },
-  "homepage": "https://github.com/maranomynet/selectybox"
+  "homepage": "https://github.com/maranomynet/selectybox",
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
 }
