@@ -3,6 +3,11 @@
 ## Unreleased...
 
 - ... <!-- Add new lines here. Version number will be decided later -->
+
+## 1.4.0
+
+_2022-02-21_
+
 - feat: Add TypeScript type declarations
 
 ## 1.3.3
